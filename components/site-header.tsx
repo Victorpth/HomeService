@@ -16,7 +16,7 @@ export function SiteHeader() {
 function HeaderShell({ children }: { children?: ReactNode }) {
   return (
     <header className="border-b border-white/10 bg-navy text-paper">
-      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-2 sm:px-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-3 sm:px-6">
         <Logo />
         {children}
       </div>

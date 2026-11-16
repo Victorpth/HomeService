@@ -51,6 +51,11 @@ export function isStoragePath(path: string) {
   return storagePathPattern.test(path) && !path.includes("..");
 }
 
+export function ownsStoragePath(path: string, userId: string) {
+  const owner = path.split("/")[0];
+  return isStoragePath(path) && owner?.toLowerCase() === userId.toLowerCase();
+}
+
 export type CookApplicationView = {
   id: string;
   bio: string;
@@ -128,12 +133,16 @@ export function readCookApplication(value: unknown): CookApplicationView | null 
   };
 }
 
-export function photoPublicUrl(path: string) {
+export function storagePublicUrl(bucket: "cook-photos" | "dish-photos", path: string) {
   if (!isStoragePath(path)) {
     return null;
   }
 
   const { url } = getSupabaseEnv();
   const encoded = path.split("/").map((segment) => encodeURIComponent(segment)).join("/");
-  return `${url}/storage/v1/object/public/cook-photos/${encoded}`;
+  return `${url}/storage/v1/object/public/${bucket}/${encoded}`;
+}
+
+export function photoPublicUrl(path: string) {
+  return storagePublicUrl("cook-photos", path);
 }

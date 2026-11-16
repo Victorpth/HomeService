@@ -3,7 +3,12 @@
 import { useActionState } from "react";
 
 import { login, type LoginState } from "@/app/login/actions";
-import { alertClassName, fieldClassName, primaryButtonClassName } from "@/components/styles";
+import {
+  alertClassName,
+  fieldClassName,
+  primaryButtonClassName,
+  surfaceClassName,
+} from "@/components/styles";
 
 export function LoginForm() {
   const [state, formAction, pending] = useActionState<LoginState | null, FormData>(
@@ -12,7 +17,7 @@ export function LoginForm() {
   );
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <form action={formAction} className={`flex flex-col gap-6 ${surfaceClassName} p-6`}>
       <label className="flex flex-col gap-2 text-sm text-ink" htmlFor="email">
         Email
         <input

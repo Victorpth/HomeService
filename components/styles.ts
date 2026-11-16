@@ -1,3 +1,9 @@
+export const surfaceClassName =
+  "rounded-2xl border border-navy/10 bg-white shadow-[0_20px_50px_-32px_rgba(30,42,58,0.7)]";
+
+export const raisedCardClassName =
+  "rounded-3xl border border-white/70 bg-white shadow-[0_24px_60px_-28px_rgba(30,42,58,0.55)]";
+
 export const fieldClassName =
   "h-11 rounded-lg border border-navy/15 bg-white px-3 text-ink outline-none focus:border-navy";
 

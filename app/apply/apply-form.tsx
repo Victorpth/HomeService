@@ -7,6 +7,7 @@ import {
   alertClassName,
   fieldClassName,
   primaryButtonClassName,
+  surfaceClassName,
   textareaClassName,
 } from "@/components/styles";
 import { cuisineOrigins } from "@/lib/cook-application";
@@ -18,7 +19,7 @@ export function ApplyForm() {
   );
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <form action={formAction} className={`flex flex-col gap-6 ${surfaceClassName} p-6`}>
       <label className="flex flex-col gap-2 text-sm text-ink" htmlFor="bio">
         Bio
         <textarea

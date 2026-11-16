@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { textLinkClassName } from "@/components/styles";
+import { surfaceClassName, textLinkClassName } from "@/components/styles";
 import {
   cuisineLabel,
   photoPublicUrl,
@@ -27,7 +27,7 @@ export function ApplicationSummary({
   });
 
   return (
-    <article className="flex flex-col gap-5 rounded-2xl border border-navy/10 bg-white p-5 sm:p-6">
+    <article className={`flex flex-col gap-5 ${surfaceClassName} p-5 sm:p-6`}>
       {application.applicant ? (
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold text-navy">{application.applicant.fullName}</h2>

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ReviewButtons } from "@/app/admin/review-buttons";
 import { ApplicationSummary } from "@/components/application-summary";
-import { textLinkClassName } from "@/components/styles";
+import { surfaceClassName, textLinkClassName } from "@/components/styles";
 import { requireRole } from "@/lib/auth";
 import { readCookApplication } from "@/lib/cook-application";
 import { signCvUrl } from "@/lib/cv-url";
@@ -56,7 +56,7 @@ export async function PendingApplications({
 
   if (applications.length === 0) {
     return (
-      <div className="flex flex-col gap-3 rounded-2xl border border-navy/10 bg-white p-6">
+      <div className={`flex flex-col gap-3 ${surfaceClassName} p-6`}>
         <h2 className="text-xl font-semibold text-navy">Pending applications</h2>
         <p>{page === 1 ? "No applications waiting." : "No applications on this page."}</p>
         {page > 1 ? (

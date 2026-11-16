@@ -24,7 +24,7 @@ const photoTypes = {
 
 type PhotoType = keyof typeof photoTypes;
 
-const photoMaxBytes = 5 * 1024 * 1024;
+export const photoMaxBytes = 5 * 1024 * 1024;
 const cvMaxBytes = 10 * 1024 * 1024;
 
 export type PreparedPhoto = {
@@ -214,4 +214,119 @@ export async function validateApplication(formData: FormData) {
       cv: preparedCv,
     },
   };
+}
+
+export type ImageExtension = "jpg" | "png" | "webp";
+
+export function imageExtension(contentType: string): ImageExtension | null {
+  if (contentType === "image/jpeg") {
+    return "jpg";
+  }
+
+  if (contentType === "image/png") {
+    return "png";
+  }
+
+  if (contentType === "image/webp") {
+    return "webp";
+  }
+
+  return null;
+}
+
+export function imageKind(bytes: Uint8Array): ImageExtension | null {
+  if (hasSignature(bytes, "image/jpeg")) {
+    return "jpg";
+  }
+
+  if (hasSignature(bytes, "image/png")) {
+    return "png";
+  }
+
+  if (hasSignature(bytes, "image/webp")) {
+    return "webp";
+  }
+
+  return null;
+}
+
+export type CookProfileFieldErrors = {
+  bio?: string;
+  specialties?: string;
+  cuisineOrigin?: string;
+  zone?: string;
+  basePrice?: string;
+  photos?: string;
+};
+
+export function validateCookProfileFields(formData: FormData) {
+  const fieldErrors: CookProfileFieldErrors = {};
+  const bio = readText(formData, "bio").trim();
+  const specialties = readText(formData, "specialties").trim();
+  const cuisineOrigin = readText(formData, "cuisineOrigin");
+  const zone = readText(formData, "zone").trim();
+  const basePriceRaw = readText(formData, "basePrice").trim();
+
+  if (bio.length < 20 || bio.length > 1000) {
+    fieldErrors.bio = "Enter a bio (20 to 1000 characters).";
+  }
+
+  if (specialties.length < 2 || specialties.length > 120) {
+    fieldErrors.specialties = "Enter your specialties (2 to 120 characters).";
+  }
+
+  if (!isCuisineOrigin(cuisineOrigin)) {
+    fieldErrors.cuisineOrigin = "Select a cuisine.";
+  }
+
+  if (zone.length < 2 || zone.length > 80) {
+    fieldErrors.zone = "Enter your area (2 to 80 characters).";
+  }
+
+  const basePriceEur = Number(basePriceRaw);
+  if (!/^\d+$/.test(basePriceRaw) || basePriceEur < 1 || basePriceEur > 10000) {
+    fieldErrors.basePrice = "Enter a base price from 1 to 10000 euros.";
+  }
+
+  if (Object.keys(fieldErrors).length > 0 || !isCuisineOrigin(cuisineOrigin)) {
+    return { fieldErrors };
+  }
+
+  return {
+    fieldErrors,
+    profile: {
+      bio,
+      specialties,
+      cuisineOrigin,
+      zone,
+      basePriceEur,
+    },
+  };
+}
+
+export type DishFieldErrors = {
+  name?: string;
+  price?: string;
+  photo?: string;
+};
+
+export function validateDishFields(formData: FormData) {
+  const fieldErrors: DishFieldErrors = {};
+  const name = readText(formData, "name").trim();
+  const priceRaw = readText(formData, "price").trim();
+
+  if (name.length < 2 || name.length > 80) {
+    fieldErrors.name = "Enter a dish name (2 to 80 characters).";
+  }
+
+  const priceEur = Number(priceRaw);
+  if (!/^\d+$/.test(priceRaw) || priceEur < 1 || priceEur > 10000) {
+    fieldErrors.price = "Enter a price from 1 to 10000 euros.";
+  }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return { fieldErrors };
+  }
+
+  return { fieldErrors, dish: { name, priceEur } };
 }

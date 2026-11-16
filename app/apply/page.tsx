@@ -5,7 +5,7 @@ import { signOut } from "@/app/actions/sign-out";
 import { ApplyForm } from "@/app/apply/apply-form";
 import { ApplicationSummary } from "@/components/application-summary";
 import { PageHeader, PageMain } from "@/components/page-header";
-import { primaryButtonClassName } from "@/components/styles";
+import { primaryButtonClassName, surfaceClassName } from "@/components/styles";
 import { getLiveAccount, roleHome } from "@/lib/auth";
 import { readCookApplication } from "@/lib/cook-application";
 import { signCvUrl } from "@/lib/cv-url";
@@ -35,7 +35,7 @@ async function ApplyPanel() {
 
   if (account.status === "missing") {
     return (
-      <div className="flex flex-col gap-4 rounded-2xl border border-navy/10 bg-white p-6">
+      <div className={`flex flex-col gap-4 ${surfaceClassName} p-6`}>
         <p>We could not find your profile.</p>
         <form action={signOut}>
           <button type="submit" className={primaryButtonClassName}>
@@ -79,7 +79,7 @@ async function ApplyPanel() {
   return (
     <div className="flex flex-col gap-6">
       {application?.status === "rejected" ? (
-        <p className="rounded-2xl border border-navy/10 bg-white p-5 text-sm">
+        <p className={`${surfaceClassName} p-5 text-sm`}>
           Your last application was rejected. You can send a new one.
         </p>
       ) : null}
