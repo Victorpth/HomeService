@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { getSupabaseEnv } from "@/lib/supabase/env";
 
-const rolePrefixes = ["/host", "/cook", "/admin"];
+const rolePrefixes = ["/host", "/cook", "/admin", "/apply"];
 
 function isRoleRoute(pathname: string) {
   return rolePrefixes.some(

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 import { LoginForm } from "@/app/login/login-form";
+import { PageHeader, PageMain } from "@/components/page-header";
+import { textLinkClassName } from "@/components/styles";
 import { getProfile, roleHome } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -16,12 +18,12 @@ export default function LoginPage({
   searchParams: Promise<{ error?: string | string[] }>;
 }) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-8 px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">Log in</h1>
-      <Suspense fallback={<p>Loading…</p>}>
+    <PageMain>
+      <PageHeader title="Log in" />
+      <Suspense fallback={<p className="text-sm text-muted">Loading…</p>}>
         <LoginBody searchParams={searchParams} />
       </Suspense>
-    </main>
+    </PageMain>
   );
 }
 
@@ -41,14 +43,14 @@ async function LoginBody({
   return (
     <>
       {error === "confirm" ? (
-        <p className="text-sm" role="alert">
+        <p className="text-sm text-danger" role="alert">
           That confirmation link is invalid or expired.
         </p>
       ) : null}
       <LoginForm />
-      <p className="text-sm">
+      <p className="text-sm text-ink">
         No account yet?{" "}
-        <Link href="/signup" className="font-medium underline underline-offset-4">
+        <Link href="/signup" className={textLinkClassName}>
           Sign up
         </Link>
       </p>

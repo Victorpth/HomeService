@@ -30,10 +30,7 @@ type Account =
   | { status: "missing" }
   | { status: "ok"; profile: Profile };
 
-async function getAccount(): Promise<Account> {
-  "use cache: private";
-  cacheLife({ stale: 30 });
-
+export async function getLiveAccount(): Promise<Account> {
   const supabase = await createClient();
   const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
 
@@ -67,6 +64,13 @@ async function getAccount(): Promise<Account> {
       role: data.role,
     },
   };
+}
+
+async function getAccount(): Promise<Account> {
+  "use cache: private";
+  cacheLife({ stale: 30 });
+
+  return getLiveAccount();
 }
 
 export const getProfile = cache(async (): Promise<Profile | null> => {

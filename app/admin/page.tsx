@@ -1,18 +1,27 @@
 import { Suspense } from "react";
 
+import { PendingApplications } from "@/app/admin/pending-applications";
+import { PageHeader, PageMain } from "@/components/page-header";
 import { RolePanel } from "@/components/role-panel";
 
 export const metadata = {
   title: "Admin",
 };
 
-export default function AdminPage() {
+export default function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center gap-8 px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">Admin</h1>
-      <Suspense fallback={<p>Loading…</p>}>
+    <PageMain width="3xl">
+      <PageHeader title="Admin" />
+      <Suspense fallback={<p className="text-sm text-muted">Loading…</p>}>
         <RolePanel role="admin" />
       </Suspense>
-    </main>
+      <Suspense fallback={<p className="text-sm text-muted">Loading applications…</p>}>
+        <PendingApplications searchParams={searchParams} />
+      </Suspense>
+    </PageMain>
   );
 }
